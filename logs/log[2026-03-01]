@@ -1,1 +1,3 @@
-
+- [ ] Entry 1: I have decided to first specialize in web app pentesting. You could say I arrived at this decision on a whim but I assure you that this was a thought out decision. I saw an article on medium that pentesters should rather specialize. I also decided to start pentesting a web app because I actually own a web app. So we will be pentesting it today.
+- [ ] Entry 2: I have decided to host a docker container inside my kali linux vm to ensure complete isolation as my web app is live. This would be good practice for when I do more pen tests in future.
+- [ ] Entry 3: I first made sure my kali is up-to-date. Then I enabled docker.
