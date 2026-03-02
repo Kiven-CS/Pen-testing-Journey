@@ -1,0 +1,32 @@
+[] - Entry 1: Before i could pentest it looks like I have to switch to an operations role and create a pre-production copy for pentesting/
+
+    First I created a docker-compose.yml to define the application and database services.
+    Configured a internal Docker network to isolate traffic between the app and database.
+    Implemented healthchecks to ensure the database is ready before the application starts.
+
+[] - Entry 2: I had to create a new database to make sure whatever happened in the container didnt impact the live app.
+              Yeah typically you would do security checks before the app goes live but i didnt now that until know
+               the more you learn
+
+   [ ] - Entry 3: I Generated unique local credentials (ops_user) distinct from production.
+    Configured DATABASE_URL to point to the internal Docker service name (@db) rather than an external host.
+    Disabled external port exposure for the database (Port 5432 blocked externally).
+    This means that the container is isolated from the production, which is extra assurance.
+
+[ ] - Entry 4: I couldnt be too safe so even though I am currently in operations I decided to do some security hardening
+
+    Credential Management: Rotated production database credentials immediately after cloning to invalidate any exposed secrets.
+    Network Security: Configured UFW firewall to allow only SSH (22); application port (3000) accessible via localhost only.
+    Data Sanitization: Used a fresh database instance with no production user data.
+    Like I said earlier this is only because the app is already live, in the typical development cycle operations would 
+    have created a pre production product before it went live.
+
+[ ] - Entry 5: Even though I am handing over to myself I thought it would be good practice if I knew what to expect from
+my future co owrkers who work in operations, in which I have a new found respect for them.
+
+    Connectivity Test: Verified application responds on http://127.0.0.1:3000.
+    Isolation Test: Created a local test user and confirmed it does not appear in the production database.
+    Network Test: Confirmed no outbound traffic to production IPs using tcpdump.
+    Snapshot: Created a VM snapshot (PRE-PENTEST-CLEAN-STATE) for instant recovery.
+[ ] - Entry 6: This was purely operations work but I learnt alot from undergoing this, with this I have now demonstrated
+my ability in development and operations, now I can finally do security tommorow see you there!
